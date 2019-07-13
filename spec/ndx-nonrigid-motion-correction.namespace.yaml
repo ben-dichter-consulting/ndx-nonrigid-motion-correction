@@ -1,0 +1,12 @@
+namespaces:
+- author: Ben Dichter
+  contact: ben.dichter@gmail.com
+  doc: General framework for storing nonrigid motion correction of optical imaging
+    in NWB:N 2.0
+  name: ndx-nonrigid-motion-correction
+  schema:
+  - namespace: core
+    neurodata_types:
+    - ElectricalSeries
+  - source: ndx-nonrigid-motion-correction.extensions.yaml
+  version: 0.1.0
