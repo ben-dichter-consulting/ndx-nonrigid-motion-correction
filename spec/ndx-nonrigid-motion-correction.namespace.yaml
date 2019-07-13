@@ -5,8 +5,8 @@ namespaces:
     in NWB:N 2.0
   name: ndx-nonrigid-motion-correction
   schema:
-  - namespace: core
-    neurodata_types:
-    - ElectricalSeries
+  - data_types:
+    - TimeSeries
+    namespace: core
   - source: ndx-nonrigid-motion-correction.extensions.yaml
   version: 0.1.0

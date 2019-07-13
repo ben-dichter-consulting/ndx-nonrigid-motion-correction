@@ -1,9 +1,59 @@
 groups:
-- neurodata_type_def: TetrodeSeries
-  neurodata_type_inc: ElectricalSeries
-  doc: An extension of ElectricalSeries to include information about the tetrode ID
-    for each time series.
+- neurodata_type_def: NonrigidMotionCorrection
+  neurodata_type_inc: NWBDataInterface
+  doc: General framework for storing nonrigid motion correction of optical imaging
+    in NWB:N 2.0
   attributes:
-  - name: trode_id
+  - name: interpolation_type
+    dtype: text
+    default_value: local_interpolation
+    doc: the relationship between expected shifts and the estimated movie value. This
+      will frequently be either nearest neighbor (common), 1 pixel local interpolation
+      (most common), or some other interpolation function (least common, such as MATLAB's
+      3d gridded interpolation)
+    required: false
+  - name: spatial_dimensions
     dtype: int
-    doc: The tetrode ID
+    dims:
+    - x, y
+    - x, y, z
+    shape:
+    - - 2
+    - - 3
+    doc: number of pixels in each spatial dimension
+  - name: nblocks
+    dtype: int
+    doc: number of blocks
+  datasets:
+  - name: pixel_map
+    dtype: int
+    dims:
+    - - x
+      - y
+    - - x
+      - y
+      - z
+    shape:
+    - - null
+      - null
+    - - null
+      - null
+      - null
+    doc: A mapping function of pixels onto basis variables. To be fully general, this
+      is a sparse matrix (AxBxC) (number of voxels in each of the spatial dimensions).
+      In standard blockwise motion correction, this matrix is a matrix of ones. In
+      CNMF's patches, this matrix is a labels each non-overlapping patch with a unique
+      int
+  - name: data
+    dtype: float
+    dims:
+    - time
+    - nblocks * ndims
+    shape:
+    - null
+    - null
+    doc: A set of (NxM) basis variables where N is the number of blocks, M is the
+      number of spatial dimensions (1 to 3) each defined for a set of times T (for
+      the number of time-steps). In standard block-wise motion correction, N = 1,
+      in line-by-line motion correction, N = number of lines, in CNMF's non-rigid
+      motion correction, N = number of patches
